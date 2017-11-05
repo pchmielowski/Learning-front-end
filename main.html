@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Learning</title>
+    <link rel="stylesheet" type="text/css" href="http://yegor256.github.io/tacit/tacit.min.css" />
+    <meta charset=“utf-8”>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js">
+
+    </script>
+    <script>
+        // Initialize Firebase
+        var config = {
+          // TODO
+        };
+        firebase.initializeApp(config);
+        var remove = (id) => {
+            firebase.database().ref('/0/data/').child(id).remove()
+        };
+
+        function writeUserData() {
+            firebase.database().ref('/0/data/').push().set({
+                word: document.getElementById("word").value,
+                translation: document.getElementById("translation").value
+            });
+        }
+
+        firebase.database().ref('/0/data/').on('value', function (snapshot) {
+            document.getElementById("content").innerHTML = "";
+            snapshot
+                .forEach(e => {
+                    str = e.val().word + " <b>" + e.val().translation + "</b> <a href='javascript: remove(\"" + e.key + "\")'>remove</a><br />"
+                    document.getElementById("content").innerHTML += str
+                })
+        });
+    </script>
+</head>
+
+<body>
+    <div id="content">
+
+    </div>
+    <input id="word" />
+    <input id="translation" />
+    <button onClick="writeUserData()">    Add</button>
+</body>
+
+</html>
