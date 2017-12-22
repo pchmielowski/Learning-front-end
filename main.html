@@ -50,8 +50,8 @@
 
         const writeUserData = () => {
             firebase.database().ref('users/' + localStorage.getItem('user') + '/data/').push().set({
-                word: document.getElementById("word").value,
-                translation: document.getElementById("translation").value
+                word: app.original,
+                translation: app.translation
             });
         }
     </script>
@@ -88,18 +88,26 @@
                 <strong>{{ word.trans }}</strong>
                 <a :href="word.remove">remove</a>
             </p>
+            <input v-model="original" />
+            <input v-model="translation" @keyup.enter="update" />
         </div>
         <script>
             var app = new Vue({
                 el: '#app',
                 data: {
-                    words: []
+                    words: [],
+                    original: "",
+                    translation: ""
+                },
+                methods: {
+                    update: () => {
+                        writeUserData();
+                        this.original = "";
+                        this.translation = ""
+                    }
                 }
             });
         </script>
-        <input id="word" />
-        <input id="translation" />
-        <button onClick="writeUserData()">    Add</button>
     </main>
 </body>
 
