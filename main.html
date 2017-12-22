@@ -20,15 +20,12 @@
 
         firebase.initializeApp(config);
         const provider = new firebase.auth.FacebookAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function (result) {
-            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-
-            localStorage.setItem('user', result.user.uid);
-            return result.user.uid;
+        firebase.auth().signInWithPopup(provider).then((result) => {
+            const user = result.user.uid;
+            localStorage.setItem('user', user);
+            return user;
         }).then(user => {
-            firebase.database().ref('/users/' + user + '/data/').on('value', function (snapshot) {
+            firebase.database().ref('/users/' + user + '/data/').on('value', (snapshot) => {
                 document.getElementById("content").innerHTML = "";
                 snapshot
                     .forEach(e => {
@@ -37,16 +34,17 @@
                     })
             });
 
-        }).catch(function (error) {
+        }).catch((error) => {
+            alert("Error");
             console.log(error);
         });
 
 
-        var remove = (id) => {
+        const remove = (id) => {
             firebase.database().ref('users/' + localStorage.getItem('user') + '/data/').child(id).remove()
         };
 
-        function writeUserData() {
+        const writeUserData = () => {
             firebase.database().ref('users/' + localStorage.getItem('user') + '/data/').push().set({
                 word: document.getElementById("word").value,
                 translation: document.getElementById("translation").value
