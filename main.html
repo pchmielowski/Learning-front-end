@@ -8,6 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js">
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script>
         const config = {
             apiKey: "AIzaSyA_FFbyyIGGYVLKsZpzKxyKdpmb33NACQQ",
@@ -26,11 +27,14 @@
             return user;
         }).then(user => {
             firebase.database().ref('/users/' + user + '/data/').on('value', (snapshot) => {
-                document.getElementById("content").innerHTML = "";
+                app.words = [];
                 snapshot
                     .forEach(e => {
-                        str = e.val().word + " <b>" + e.val().translation + "</b> <a href='javascript: remove(\"" + e.key + "\")'>remove</a><br />"
-                        document.getElementById("content").innerHTML += str
+                        app.words.push({
+                            orig: e.val().word,
+                            trans: e.val().translation,
+                            remove: "javascript: remove(\"" + e.key + "\")"
+                        });
                     })
             });
 
@@ -78,9 +82,21 @@
     </script>
 
     <main>
-        <div id="content">
-
+        <div id="app">
+            <p v-for="word in words">
+                {{ word.orig }}
+                <strong>{{ word.trans }}</strong>
+                <a :href="word.remove">remove</a>
+            </p>
         </div>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    words: []
+                }
+            });
+        </script>
         <input id="word" />
         <input id="translation" />
         <button onClick="writeUserData()">    Add</button>
