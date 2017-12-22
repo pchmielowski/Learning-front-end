@@ -80,17 +80,30 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-
     <main>
         <div id="app">
-            <p v-for="word in words">
-                {{ word.orig }}
-                <strong>{{ word.trans }}</strong>
-                <a :href="word.remove">remove</a>
-            </p>
-            <input v-model="original" />
-            <input v-model="translation" @keyup.enter="update" />
+            <section>
+                <h1>Add new word:</h1>
+                <label for="word">Word:</label>
+                <input v-model="original" id="word" />
+                <label for="translation">Translation:</label>
+                <input v-model="translation" id="translation" @keyup.enter="update" />
+            </section>
+            <section>
+                <h1>My words:</h1>
+                <table>
+                    <tr>
+                        <th>Word</th>
+                        <th>Translation</th>
+                    </tr>
+                    <tr v-for="word in words">
+                        <td>{{ word.orig }}</td>
+                        <td><strong>{{ word.trans }}</strong></td>
+                        <td><a :href="word.remove">remove</a></td>
+                    </tr>
+                </table>
         </div>
+        </section>
         <script>
             var app = new Vue({
                 el: '#app',
