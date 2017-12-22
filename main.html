@@ -52,13 +52,6 @@
                 translation: document.getElementById("translation").value
             });
         }
-
-
-        function checkLoginState() {
-            FB.getLoginStatus(function (response) {
-                console.log(response);
-            });
-        }
     </script>
 </head>
 
@@ -85,10 +78,6 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-    </fb:login-button>
-
 
     <main>
         <div id="content">
