@@ -9,10 +9,15 @@
 
     </script>
     <script>
-        // Initialize Firebase
         var config = {
-          // TODO
+            apiKey: "AIzaSyA_FFbyyIGGYVLKsZpzKxyKdpmb33NACQQ",
+            authDomain: "learning-4ee1b.firebaseapp.com",
+            databaseURL: "https://learning-4ee1b.firebaseio.com",
+            projectId: "learning-4ee1b",
+            storageBucket: "learning-4ee1b.appspot.com",
+            messagingSenderId: "228836215394"
         };
+
         firebase.initializeApp(config);
         var remove = (id) => {
             firebase.database().ref('/0/data/').child(id).remove()
