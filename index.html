@@ -79,10 +79,8 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-    <header>
-        <div id="header">
-            Welcome, {{user}}!
-        </div>
+    <header id="header">
+        Welcome, {{user}}!
         <script>
             const header = new Vue({
                 el: '#header',
@@ -92,29 +90,27 @@
             });
         </script>
     </header>
-    <main>
-        <div id="app">
-            <section>
-                <h1>Add new word:</h1>
-                <input v-model="original" id="word" placeholder="Word" />
-                <input v-model="translation" id="translation" @keyup.enter="update" placeholder="Translation" />
-            </section>
-            <section>
-                <h1>My words:</h1>
-                <table>
-                    <tr>
-                        <th>Word</th>
-                        <th>Translation</th>
-                        <th>Score</th>
-                    </tr>
-                    <tr v-for="word in words">
-                        <td>{{ word.orig }}</td>
-                        <td><strong>{{ word.trans }}</strong></td>
-                        <td>{{ word.score }}</td>
-                        <td><a :href="word.remove">remove</a></td>
-                    </tr>
-                </table>
-        </div>
+    <main id="app">
+        <section>
+            <h1>Add new word:</h1>
+            <input v-model="original" id="word" placeholder="Word" />
+            <input v-model="translation" id="translation" @keyup.enter="update" placeholder="Translation" />
+        </section>
+        <section>
+            <h1>My words:</h1>
+            <table>
+                <tr>
+                    <th>Word</th>
+                    <th>Translation</th>
+                    <th>Score</th>
+                </tr>
+                <tr v-for="word in words">
+                    <td>{{ word.orig }}</td>
+                    <td><strong>{{ word.trans }}</strong></td>
+                    <td>{{ word.score }}</td>
+                    <td><a :href="word.remove">remove</a></td>
+                </tr>
+            </table>
         </section>
         <script>
             var app = new Vue({
