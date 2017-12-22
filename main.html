@@ -22,6 +22,7 @@
         firebase.initializeApp(config);
         const provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then((result) => {
+            header.user = result.user.displayName;
             const user = result.user.uid;
             localStorage.setItem('user', user);
         }).then(() => {
@@ -49,7 +50,7 @@
             firebase.database().ref('users/' + localStorage.getItem('user') + '/data/');
 
         const remove = (id) => {
-            ref().child(id).update({removed: true})
+            ref().child(id).update({ removed: true })
         };
     </script>
 </head>
@@ -77,6 +78,19 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+    <header>
+        <div id="header">
+            Welcome, {{user}}!
+        </div>
+        <script>
+            const header = new Vue({
+                el: '#header',
+                data: {
+                    user: ""
+                }
+            });
+        </script>
+    </header>
     <main>
         <div id="app">
             <section>
