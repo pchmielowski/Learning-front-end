@@ -24,9 +24,8 @@
         firebase.auth().signInWithPopup(provider).then((result) => {
             const user = result.user.uid;
             localStorage.setItem('user', user);
-            return user;
-        }).then(user => {
-            firebase.database().ref('/users/' + user + '/data/').on('value', (snapshot) => {
+        }).then(() => {
+            ref().on('value', (snapshot) => {
                 app.words = [];
                 snapshot
                     .forEach(e => {
@@ -43,17 +42,12 @@
             console.log(error);
         });
 
+        const ref = () =>
+            firebase.database().ref('users/' + localStorage.getItem('user') + '/data/');
 
         const remove = (id) => {
-            firebase.database().ref('users/' + localStorage.getItem('user') + '/data/').child(id).remove()
+            ref().child(id).remove()
         };
-
-        const writeUserData = () => {
-            firebase.database().ref('users/' + localStorage.getItem('user') + '/data/').push().set({
-                word: app.original,
-                translation: app.translation
-            });
-        }
     </script>
 </head>
 
@@ -114,9 +108,11 @@
                 },
                 methods: {
                     update: () => {
-                        writeUserData();
-                        this.original = "";
-                        this.translation = ""
+                        ref().push()
+                            .set({
+                                word: app.original,
+                                translation: app.translation
+                            });
                     }
                 }
             });
